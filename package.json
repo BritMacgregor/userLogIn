@@ -1,0 +1,19 @@
+{
+  "name": "userlogin",
+  "version": "1.0.0",
+  "description": "A user login app created using user authentication with express and mongo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BritMacgregor/userLogIn.git"
+  },
+  "author": "Brittney Mac Gregor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BritMacgregor/userLogIn/issues"
+  },
+  "homepage": "https://github.com/BritMacgregor/userLogIn#readme"
+}
