@@ -1,0 +1,18 @@
+//- bolier plate code that extends the base layout.pug, the template for the overall design
+extends layout
+
+block content
+  .main.container
+    .row
+      .col-md-6.col-md-offset-3
+        h1.display-4.m-b-2 Log In
+        //- The form method should be post and the action /login
+        form(method='POST' action='/login')
+          //-Each of the form label and inputs are grouped in a div with the class form group
+          div.form-group
+            label(for='email') Email
+            input.form-control(type='text' id='email' placeholder='email' name='email')
+          div.form-group
+            label(for='password') Password
+            input.form-control(type='password' id='password' placeholder='password' name='password')
+          button.btn.btn-primary(type='submit') Log in 

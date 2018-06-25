@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  .main.container
+    .row
+      .col-md-6.col-md-offset-3
+        h1.display-4.m-b-2 Sign Up
+
+        // register form
+        // register Form
+        //a form needs a method attribute and an action attribute. Method referes to the http method that the browser uses to submit the form.
+        //the action attribute tells the application where the form data will be processed.
+        //in this case we are using the POST method to post data and sending the data to the /register uri, this is where the data is going to be sent
+        form(method='POST' action='/register')
+          div.form-group
+            label(for='name') Name:
+            input#name.form-control(type='text', placeholder='first and last' name='name')
+          div.form-group
+            label(for='email') Email:
+            input#email.form-control(type='email', placeholder='name@email.com' name='email')
+          div.form-group
+            label(for='favoriteBook') Favorite Book:
+            input#favoriteBook.form-control(type='text', placeholder='title of book' name='favoriteBook')
+          div.form-group
+            label(for='pw') Password:
+            input#pw.form-control(type='password' name='password')
+          div.form-group
+            label(for='pw2') Confirm Password:
+            input#pw2.form-control(type='password' name='confirmPassword')
+          button.btn.btn-primary(type='submit') Sign up

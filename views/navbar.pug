@@ -1,0 +1,27 @@
+nav.navbar.navbar-fixed-top.navbar-dark.bg-inverse
+  button.navbar-toggler.hidden-md-up.pull-xs-right(type='button', data-toggle='collapse', data-target='#navbar') &#x2630;
+  #navbar.navbar-nav.collapse.navbar-toggleable-sm
+    .container
+      a.navbar-brand(href='/')
+        i.icn-logo.material-icons bookmark_border
+        | Bookworm
+      .nav-items.clearfix
+        //-We add a simple line of logic to only show the signup button to those who are not logged in.
+        //-We'll add a blank line just above the signup button column and type if not currentuser
+        //- In other words, if there's not a current value for the current user property, for example, it's undefined, then show the code that follows.
+        if !currentUser
+          a.nav-item.nav-link(href='register') Sign Up
+        a.nav-item.nav-link(href='about') About
+        a.nav-item.nav-link(href='contact') Contact
+        a.nav-item.nav-link(href='profile') My Profile
+        
+        //- we can use if else logic to toggle between a log out and login button
+        //- start by checking to see if there is a currentUser value.
+        //- if so, add a div and a little image and a button that takes the user to a /logout route  
+      if currentUser
+        div
+          img.avatar.img-circle.hidden-xs-down(src='/images/avatar.png', alt='avatar')
+          a.btn.btn-light.pull-md-right(href='/logout') Log out
+      else  
+        a.btn.btn-info.pull-md-right(href='login') Login
+        
