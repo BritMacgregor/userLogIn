@@ -3,7 +3,24 @@ const bodyParser = require('body-parser');
 const app = express();
 //in order to use express session, we have to include it.
 const session = require('express-session');
+//to use the module we'll have to load it.
+//make sure you add this line AFTER you require the express-session module
+//we're not only loading this module, but calling it, passing our express session as an argument.
+//then we find the session middleware and add a new key called store
+const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
+
+//connects to mongodb using mongoose
+//mongodb connection
+//were passing one argument to the connect method, the mongo database.
+//this connects to mongodb on this machine, local host on port 27017, the default port for MongoDB
+//the last part /bookworm, is the name of the Mongo data store, bookworm, the name of the database for our site. Mongoose will automatically create this database after it starts
+mongoose.connect("mongodb://localhost:27017/bookworm");
+//variable to hold the database connection object
+const db = mongoose.connection;
+//we can use the db object to hold an error handler
+//this code listens for error events or errors that occur with our database and logs those errors to the console.
+db.on('error', console.error.bind(console, 'conection error:'));
 
 //use sessions for for tracking logins
 //we use app.use then pass session. The session function takes a few parameters.
@@ -15,7 +32,15 @@ app.use(session({
   resave: true,
   //save uninitialized forces an uninitialized session to be saved in the session store.
   //n uninitialized session is a new and not yet modified session, and since we don't want to save it, we set the value to false.
-  saveUninitialized: false
+  saveUninitialized: false,
+  //Here we add the new key for the mongo-connect middleware called store.
+  //Inside of the key we add an object called MongoStore
+  store: new MongoStore({
+    //the session constructor function takes a configuration object, and all we need to do is set mongoose connection to DB
+    mongooseConnection: db
+    //if you look at the code to connect to mongoDB you'll see a line where we set the variable to the Mongoose connection, after we've connected to the local Mongo DB instance.
+    //So it's IMPORTANT we make sure this entire function is pasted in UNDER the MONGODB connection.
+  })
   //you can use sessions all the time, even for visiters that have not signed up. This is useful for tracking how anyonymous users visit your site,
   //which pages they visit, how long they visit and so on.
 }));
@@ -34,19 +59,7 @@ app.use(function (req, res, next) {
   //We will add a bit of logic to the navigation bar.
     res.locals.currentUser = req.session.userId;
     next();
-})
-
-//connects to mongodb using mongoose
-//mongodb connection
-//were passing one argument to the connect method, the mongo database.
-//this connects to mongodb on this machine, local host on port 27017, the default port for MongoDB
-//the last part /bookworm, is the name of the Mongo data store, bookworm, the name of the database for our site. Mongoose will automatically create this database after it starts
-mongoose.connect("mongodb://localhost:27017/bookworm");
-//variable to hold the database connection object
-const db = mongoose.connection;
-//we can use the db object to hold an error handler
-//this code listens for error events or errors that occur with our database and logs those errors to the console.
-db.on('error', console.error.bind(console, 'conection error:'));
+});
 
 // parse incoming requests
 app.use(bodyParser.json());
